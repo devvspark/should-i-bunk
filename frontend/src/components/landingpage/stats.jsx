@@ -12,7 +12,7 @@ export default function StatsBar() {
 
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
-          {stats.map((item, index) => (
+          {stats.map((item, index) => ( 
             <div key={index}>
               <h3 className="text-3xl font-bold text-gray-900">
                 {item.value}

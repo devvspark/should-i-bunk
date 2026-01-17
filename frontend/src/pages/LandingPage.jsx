@@ -15,7 +15,7 @@ const LandingPage = () => {
       <StatsBar/>
       <CoreCapabilities/>
       <RiskZones/>
-      <CTA/>
+      <CTA/> 
       <Footer/>
     </>
   );

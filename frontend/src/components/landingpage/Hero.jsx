@@ -54,7 +54,7 @@ export default function Hero() {
               </span>
             </div>
 
-            {/* Subject 1 */}
+            {/* Subject 1 */} 
             <div className="mb-6">
               <div className="flex justify-between text-sm mb-2">
                 <span>Advanced Calculus</span>

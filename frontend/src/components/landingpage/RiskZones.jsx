@@ -6,7 +6,7 @@ const ZONES = [
       "You are comfortably above the minimum attendance requirement. You can safely plan breaks without academic risk.",
     bg: "bg-green-50",
     border: "border-green-200",
-    text: "text-green-700",
+    text: "text-green-700", 
   },
   {
     title: "Risk Zone",

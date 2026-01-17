@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 text-center sm:text-left">
 
           {/* Brand */}
-          <div className="sm:col-span-2 md:col-span-1">
+          <div className="sm:col-span-2 md:col-span-1"> 
             <div className="flex items-center justify-center sm:justify-start gap-2 font-bold text-lg text-gray-900">
               <div className="w-8 h-8 rounded-lg bg-teal-600 text-white flex items-center justify-center">
                 S
