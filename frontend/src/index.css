@@ -1,6 +1,13 @@
 @import "tailwindcss";
 
-
+.academic-gradient {
+  background: linear-gradient(
+    135deg,
+    #0f766e 0%,
+    #0d9488 45%,
+    #059669 100%
+  );
+}
 
 /* :root {
   font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;

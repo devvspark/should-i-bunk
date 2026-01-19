@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,14 +28,21 @@ const Navbar = () => {
 
         {/* Desktop Actions */}
         <div className="hidden md:flex items-center gap-4">
-          <button className="text-sm font-medium text-gray-600 hover:text-gray-900">
+          <Link
+            to="/login"
+            className="text-sm font-medium text-gray-600 hover:text-gray-900"
+          >
             Login
-          </button>
+          </Link>
 
-          <button className="rounded-md bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700 transition">
+          <Link
+            to="/signup"
+            className="rounded-md bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700 transition"
+          >
             Get Started
-          </button>
+          </Link>
         </div>
+
 
         {/* Mobile Toggle */}
         <button 
@@ -54,13 +62,23 @@ const Navbar = () => {
             <li className="cursor-pointer hover:text-gray-900">Pricing</li>
           </ul>
           <div className="pt-4 border-t border-gray-100 flex flex-col gap-4">
-            <button className="w-full text-center text-sm font-medium text-gray-600 hover:text-gray-900">
+            <Link
+              to="/login"
+              className="w-full text-center text-sm font-medium text-gray-600 hover:text-gray-900"
+              onClick={() => setIsOpen(false)}
+            >
               Login
-            </button>
-            <button className="w-full rounded-md bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700 transition">
+            </Link>
+
+            <Link
+              to="/signup"
+              className="w-full rounded-md bg-teal-600 px-4 py-2 text-center text-sm font-semibold text-white hover:bg-teal-700 transition"
+              onClick={() => setIsOpen(false)}
+            >
               Get Started
-            </button>
+            </Link>
           </div>
+
         </div>
       )}
     </nav> 
