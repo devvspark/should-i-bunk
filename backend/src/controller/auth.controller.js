@@ -1,7 +1,6 @@
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
-
-
+import jwt from "jsonwebtoken";
 export const signup = async (req, res) => {
   try {
     const { name, email, password, acceptedTerms } = req.body;
@@ -86,6 +85,21 @@ export const login = async (req, res) => {
         message: "Invalid email or password",
       });
     }
+
+     // ✅ CREATE JWT
+    const token = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    // ✅ SET COOKIE
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false, // true in production (HTTPS)
+      sameSite: "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000
+    });
 
     /* ================= RESPONSE ================= */
     return res.status(200).json({
