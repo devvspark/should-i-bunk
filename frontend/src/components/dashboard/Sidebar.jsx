@@ -1,15 +1,21 @@
+import { useNavigate } from "react-router-dom";
 export default function Sidebar() {
+  const navigate = useNavigate(); 
   return (
     <aside className="w-64 flex-shrink-0 border-r border-[#eaeff1] dark:border-gray-800 bg-white dark:bg-gray-900 hidden lg:flex flex-col">
       <div className="p-6 flex flex-col h-full">
 
         {/* 🔹 LOGO / BRAND */}
-        <div className="flex items-center gap-3 mb-10">
+        <button
+          onClick={() => navigate("/")}
+          className ="flex items-center gap-3 mb-10">
           <div className="bg-teal-600 rounded-xl size-10 flex items-center justify-center text-white">
             <span className="material-symbols-outlined">
               school
             </span>
           </div>
+          
+
 
           <div className="flex flex-col">
             <h1 className="text-[#101718] dark:text-white text-base font-bold leading-none">
@@ -19,7 +25,8 @@ export default function Sidebar() {
               Risk Awareness
             </p>
           </div>
-        </div>
+        </button>
+        
 
         {/* 🔹 NAVIGATION */}
         <nav className="flex flex-col gap-1 flex-1">
