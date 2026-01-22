@@ -3,9 +3,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../../redux/userSlice";
 
 export default function Login() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // ===== STATES (LOGIC ONLY) =====
   const [email, setEmail] = useState("");
@@ -15,25 +18,32 @@ export default function Login() {
   const [error, setError] = useState("");
 
   // ===== SUBMIT HANDLER =====
+ 
+
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
+  e.preventDefault();
+  setError("");
 
-    try {
-      setLoading(true);
+  try {
+    setLoading(true);
 
-      await axiosInstance.post("/auth/login", {
-        email,
-        password,
-      });
+    const res = await axiosInstance.post("/auth/login", {
+      email,
+      password,
+    });
 
-      navigate("/dashboard");
-    } catch (err) {
-      setError(err.response?.data?.message || "Invalid email or password");
-    } finally {
-      setLoading(false);
-    }
-  };
+    // 🔥 STORE USER IN REDUX
+    dispatch(loginSuccess(res.data.user));
+
+    navigate("/dashboard");
+  } catch (err) {
+    setError(err.response?.data?.message || "Invalid email or password");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="bg-background-light dark:bg-background-dark font-display text-[#101718] dark:text-gray-100 min-h-screen">

@@ -1,6 +1,10 @@
+import React from "react";
+import { useNavigate } from "react-router-dom";
+
 
 
 export default function SubjectGrid() {
+  const navigate = useNavigate();
   return (
     <section>
 
@@ -75,7 +79,7 @@ export default function SubjectGrid() {
         />
 
         {/* ADD SUBJECT CARD */}
-        <button className="group border-2 border-dashed border-gray-200 p-6 rounded-3xl flex flex-col items-center justify-center gap-3 hover:border-teal-400 hover:bg-teal-50 transition-all min-h-[180px]">
+        {/* <button className="group border-2 border-dashed border-gray-200 p-6 rounded-3xl flex flex-col items-center justify-center gap-3 hover:border-teal-400 hover:bg-teal-50 transition-all min-h-[180px]">
           <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 group-hover:bg-teal-600 group-hover:text-white transition">
             <span className="material-symbols-outlined">
               add
@@ -85,7 +89,25 @@ export default function SubjectGrid() {
           <span className="text-sm font-bold text-gray-500 group-hover:text-teal-600">
             Add New Subject
           </span>
-        </button>
+        </button> */}
+
+
+
+
+        <button
+  onClick={() => navigate("/subjects/add")}
+  className="group border-2 border-dashed border-gray-200 p-6 rounded-3xl flex flex-col items-center justify-center gap-3 hover:border-teal-400 hover:bg-teal-50 transition-all min-h-[180px]"
+>
+  <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 group-hover:bg-teal-600 group-hover:text-white transition">
+            <span className="material-symbols-outlined">
+              add
+            </span>
+          </div>
+
+          <span className="text-sm font-bold text-gray-500 group-hover:text-teal-600">
+            Add New Subject
+          </span>
+</button>
 
       </div>
     </section>
@@ -155,4 +177,3 @@ function SubjectCard({
     </article>
   );
 }
-

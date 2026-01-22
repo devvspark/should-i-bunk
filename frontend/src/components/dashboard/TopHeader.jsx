@@ -1,7 +1,9 @@
-
+import { useSelector } from "react-redux";
 
 
 export default function TopHeader() {
+  const { currentUser } = useSelector((state) => state.user);
+
   return (
     <header className="sticky top-0 z-10 flex items-center justify-between bg-white/80 backdrop-blur-md border-b border-gray-200 px-8 py-4">
 
@@ -38,9 +40,13 @@ export default function TopHeader() {
         {/* PROFILE */}
         <div className="flex items-center gap-3 pl-4 border-l border-gray-200">
           <div className="text-right hidden sm:block">
-            <p className="text-sm font-bold text-gray-900 leading-none">
+            {/* <p className="text-sm font-bold text-gray-900 leading-none">
               Alex Rivera
+            </p> */}
+            <p className="text-sm font-bold text-gray-900 leading-none">
+              {currentUser?.name || "User"}
             </p>
+
             <p className="text-xs text-gray-500 mt-1">
               Computer Science
             </p>
