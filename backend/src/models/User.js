@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema(
       minlength: 6,
       select: false, // 🔐 NEVER return password
     },
+    branch: {
+    type: String,
+    required: true,   
+  },
     acceptedTerms: {
       type: Boolean,
       required: true,

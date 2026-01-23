@@ -10,6 +10,8 @@ export default function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [branch, setBranch] = useState("");
+
   const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
@@ -33,6 +35,7 @@ export default function Signup() {
         name,
         email,
         password,
+        branch,
         acceptedTerms,
       });
 
@@ -181,6 +184,20 @@ export default function Signup() {
                   </button>
                 </div>
               </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-sm font-semibold">
+                  Branch / Class <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={branch}
+                  onChange={(e) => setBranch(e.target.value)}
+                  placeholder="Computer Science"
+                  className="w-full rounded-lg border h-12 px-4"
+                />
+              </div>
+
 
               {/* TERMS */}
               <div className="flex items-start gap-2">

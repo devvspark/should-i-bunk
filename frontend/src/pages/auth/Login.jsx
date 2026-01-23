@@ -18,7 +18,7 @@ export default function Login() {
   const [error, setError] = useState("");
 
   // ===== SUBMIT HANDLER =====
- 
+  const [branch, setBranch] = useState(""); 
 
 
   const handleSubmit = async (e) => {
@@ -31,6 +31,7 @@ export default function Login() {
     const res = await axiosInstance.post("/auth/login", {
       email,
       password,
+      branch
     });
 
     // 🔥 STORE USER IN REDUX
@@ -138,6 +139,19 @@ export default function Login() {
                 />
               </div>
 
+              <div className="flex flex-col gap-1.5">
+                <label className="text-sm font-semibold">
+                  Branch / Class <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={branch}
+                  onChange={(e) => setBranch(e.target.value)}
+                  placeholder="Computer Science"
+                  className="w-full rounded-lg border h-12 px-4"
+                />
+              </div>
+
               {/* PASSWORD */}
               <div className="flex flex-col gap-1.5">
                 <div className="flex justify-between items-center">
@@ -146,10 +160,12 @@ export default function Login() {
                     className="text-primary text-xs font-bold hover:underline"
                     href="#"
                   >
-                    Forgot password?
+                    {/* Forgot password? */}
                   </a>
                 </div>
 
+
+                
                 <div className="relative">
                   <input
                     type={showPassword ? "text" : "password"}
@@ -169,6 +185,9 @@ export default function Login() {
                     </span>
                   </button>
                 </div>
+
+
+                
               </div>
 
               {/* ERROR */}
