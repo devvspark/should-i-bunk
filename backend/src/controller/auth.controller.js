@@ -3,10 +3,10 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 export const signup = async (req, res) => {
   try {
-    const { name, email, password, acceptedTerms } = req.body;
+    const { name, email, password, branch, acceptedTerms } = req.body;
 
     /* ================= VALIDATION ================= */
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !branch) {
       return res.status(400).json({
         success: false,
         message: "All fields are required",
@@ -37,6 +37,7 @@ export const signup = async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      branch, 
       acceptedTerms,
     });
 
@@ -58,13 +59,13 @@ export const signup = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, branch } = req.body;
 
     /* ================= VALIDATION ================= */
-    if (!email || !password) {
+    if (!email || !password || !branch) {
       return res.status(400).json({
         success: false,
-        message: "Email and password are required",
+        message: "Email, password, and branch are required",
       });
     }
 
@@ -108,7 +109,8 @@ export const login = async (req, res) => {
       user: {
         id: user._id,
         name: user.name,
-        email: user.email
+        email: user.email,
+        branch: user.branch
       }
     });
 

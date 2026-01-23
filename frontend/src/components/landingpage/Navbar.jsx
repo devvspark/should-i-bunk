@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
-
+import { useSelector } from "react-redux";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-
+   const { currentUser,isAuthenticated } = useSelector(
+    (state) => state.user
+  );
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-gray-100 bg-white/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
@@ -27,7 +29,21 @@ const Navbar = () => {
         </ul>
 
         {/* Desktop Actions */}
-        <div className="hidden md:flex items-center gap-4">
+         {isAuthenticated && currentUser ? (
+        /* ✅ USER LOGGED IN */
+        <div className="flex items-center gap-4">
+          <div className="text-right">
+            <p className="text-sm font-bold">{currentUser.name}</p>
+            <p className="text-xs text-gray-500">{currentUser.branch }</p>
+          </div>
+
+          <Link to="/dashboard">
+            <div className="w-9 h-9 rounded-full bg-teal-600 text-white flex items-center justify-center">
+              {currentUser.name.charAt(0)}
+            </div>
+          </Link>
+        </div>
+      ) :(<div className="hidden md:flex items-center gap-4">
           <Link
             to="/login"
             className="text-sm font-medium text-gray-600 hover:text-gray-900"
@@ -41,7 +57,7 @@ const Navbar = () => {
           >
             Get Started
           </Link>
-        </div>
+        </div>)}
 
 
         {/* Mobile Toggle */}
