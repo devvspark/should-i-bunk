@@ -1,11 +1,11 @@
 import Subject from "../models/subject.js";
-
+import { calculateAttendance } from "../utils/attendanceCalculator.js";
 /* ➕ Add Subject */
 export const addSubject = async (req, res) => {
   const { name, totalClasses, attendedClasses, minPercentage } = req.body;
 
   const subject = await Subject.create({
-    user: req.user,
+    user: req.userId,
     name,
     totalClasses,
     attendedClasses,
@@ -15,20 +15,83 @@ export const addSubject = async (req, res) => {
   res.status(201).json(subject);
 };
 
-/* 🧠 SHOULD I BUNK LOGIC */
+  
+
 export const shouldIBunk = async (req, res) => {
-  const subject = await Subject.findById(req.params.id);
+  try {
+    const subject = await Subject.findOne({
+      _id: req.params.id,
+      user: req.userId,
+    });
 
-  const newTotal = subject.totalClasses + 1;
-  const percentage =
-    (subject.attendedClasses / newTotal) * 100;
+    if (!subject) {
+      return res.status(404).json({ message: "Subject not found" });
+    }
 
-  const safe = percentage >= subject.minPercentage;
+    // simulate bunking ONE upcoming class
+    const analysis = calculateAttendance(
+      subject.totalClasses + 1,     
+      subject.attendedClasses,      
+      subject.minPercentage
+    );
 
-  res.json({
-    subject: subject.name,
-    currentPercentage: percentage.toFixed(2),
-    decision: safe ? "YES, YOU CAN BUNK" : "NO, DO NOT BUNK",
-    status: safe ? "SAFE" : "DANGER",
+    res.json({
+      message: analysis.isSafe
+        ? "YES, YOU CAN BUNK"
+        : "NO, DO NOT BUNK",
+      subject,
+      analysis,
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const updateSubject = async (req, res) => {
+  try {
+    if (!req.body) {
+      return res.status(400).json({ message: "Request body is missing" });
+    }
+
+    const { name, totalClasses, attendedClasses, minPercentage } = req.body;
+
+    const subject = await Subject.findOneAndUpdate(
+      { _id: req.params.id, user: req.userId },
+      { name, totalClasses, attendedClasses, minPercentage },
+      { new: true }
+    );
+
+    if (!subject) {
+      return res.status(404).json({ message: "Subject not found" });
+    }
+
+    const analysis = calculateAttendance(
+      subject.totalClasses,
+      subject.attendedClasses,
+      subject.minPercentage
+    );
+
+    res.json({
+      message: "Subject updated",
+      subject,
+      analysis,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+
+
+
+export const deleteSubject = async (req, res) => {
+  await Subject.findOneAndDelete({
+    _id: req.params.id,
+    user: req.userId,
   });
+
+  res.json({ message: "Subject deleted" });
 };
