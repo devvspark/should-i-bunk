@@ -95,3 +95,41 @@ export const deleteSubject = async (req, res) => {
 
   res.json({ message: "Subject deleted" });
 };
+
+
+// 📄 GET all subjects of logged-in user
+export const getSubjects = async (req, res) => {
+  try {
+    const subjects = await Subject.find({ user: req.userId }).sort({
+      createdAt: -1,
+    });
+
+    res.json(subjects);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+export const getSubjectById = async (req, res) => {
+  try {
+    const subject = await Subject.findOne({
+      _id: req.params.id,
+      user: req.userId,
+    });
+
+    if (!subject) {
+      return res.status(404).json({ message: "Subject not found" });
+    }
+     const analysis = calculateAttendance(
+      subject.totalClasses,
+      subject.attendedClasses,
+      subject.minPercentage
+    );
+
+    res.json({ subject, analysis });
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};

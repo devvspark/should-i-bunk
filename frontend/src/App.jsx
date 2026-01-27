@@ -3,8 +3,9 @@ import Login from "./pages/auth/Login"
 import Signup from "./pages/auth/Signup";
 import LandingPage from "./pages/LandingPage";
 import Dashboard from "./pages/Dashboard";
-// import EditSubject from "./pages/subjects/EditSubject";
+import EditSubject from "./pages/subjects/EditSubject";
 import AddSubject from "./pages/subjects/AddSubject";
+import SubjectsList from "./pages/subjects/SubjectList";
 import {Toaster} from "react-hot-toast";
 export default function App() {
   return (
@@ -17,8 +18,9 @@ export default function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/dashboard" element={<Dashboard/>}/>
         <Route path="/subjects/add" element={<AddSubject />} />
-
-        {/* <Route path="/subjects/edit/:id" element={<EditSubject />} /> */}
+        <Route path="/subjects" element={<SubjectsList />} />
+<Route path="/subjects/edit/:id" element={<EditSubject />} />
+        
 
       </Routes>
     </BrowserRouter>
