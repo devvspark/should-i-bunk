@@ -25,7 +25,7 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="w-64 border-r bg-white hidden lg:flex flex-col">
+    <aside className="h-screen w-64 border-r bg-white hidden lg:flex flex-col">
       <div className="p-6 flex flex-col h-full">
 
         {/* LOGO */}
