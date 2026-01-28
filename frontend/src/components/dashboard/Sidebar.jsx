@@ -1,104 +1,63 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+
 export default function Sidebar() {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  
+  const NavItem = ({ icon, label, to }) => {
+    const isActive = location.pathname.startsWith(to);
+
+    return (
+      <button
+        onClick={() => navigate(to)}
+        className={`flex items-center gap-3 px-4 py-3 rounded-xl w-full text-left transition
+          ${
+            isActive
+              ? "bg-teal-50 text-teal-700 font-semibold"
+              : "text-gray-500 hover:bg-gray-100"
+          }`}
+      >
+        <span className="material-symbols-outlined">{icon}</span>
+        <span className="text-sm">{label}</span>
+      </button>
+    );
+  };
+
   return (
-    <aside className="w-64 flex-shrink-0 border-r border-[#eaeff1] dark:border-gray-800 bg-white dark:bg-gray-900 hidden lg:flex flex-col">
+    <aside className="w-64 border-r bg-white hidden lg:flex flex-col">
       <div className="p-6 flex flex-col h-full">
 
-        {/* 🔹 LOGO / BRAND */}
+        {/* LOGO */}
         <button
           onClick={() => navigate("/")}
-          className ="flex items-center gap-3 mb-10">
+          className="flex items-center gap-3 mb-10"
+        >
           <div className="bg-teal-600 rounded-xl size-10 flex items-center justify-center text-white">
-            <span className="material-symbols-outlined">
-              school
-            </span>
+            <span className="material-symbols-outlined">school</span>
           </div>
-          
 
-
-          <div className="flex flex-col">
-            <h1 className="text-[#101718] dark:text-white text-base font-bold leading-none">
-              Should I Bunk?
-            </h1>
-            <p className="text-[#5c808a] dark:text-gray-400 text-[10px] uppercase tracking-widest font-semibold mt-1">
+          <div>
+            <h1 className="text-base font-bold">Should I Bunk?</h1>
+            <p className="text-[10px] uppercase tracking-widest text-gray-500">
               Risk Awareness
             </p>
           </div>
         </button>
-        
 
-        {/* 🔹 NAVIGATION */}
+        {/* NAVIGATION */}
         <nav className="flex flex-col gap-1 flex-1">
-
-          {/* ACTIVE ITEM */}
-          <NavItem
-            icon="grid_view"
-            label="Dashboard"
-            active
-            filled
-          />
-
-          <NavItem
-            icon="book"
-            label="Subjects"
-          />
-
-          <NavItem
-            icon="calendar_today"
-            label="Timetable"
-          />
-
-          <NavItem
-            icon="insights"
-            label="Analytics"
-          />
-
+          <NavItem icon="grid_view" label="Dashboard" to="/dashboard" />
+          <NavItem icon="book" label="Subjects" to="/subjects" />
+          <NavItem icon="calendar_today" label="Timetable" to="/timetable" />
+          <NavItem icon="insights" label="Analytics" to="/analytics" />
         </nav>
 
-        {/* 🔹 FOOTER / SETTINGS */}
-        <div className="pt-6 border-t border-[#eaeff1] dark:border-gray-800">
-          <NavItem
-            icon="settings"
-            label="Settings"
-          />
+        {/* FOOTER */}
+        <div className="pt-6 border-t">
+          <NavItem icon="settings" label="Settings" to="/settings" />
         </div>
-
       </div>
     </aside>
-  );
-}
-
-/* 🔹 REUSABLE NAV ITEM */
-function NavItem({ icon, label, active = false, filled = false }) {
-  return (
-    <a
-      href="#"
-      className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors
-        ${
-          active
-            ? "bg-primary/10 text-primary"
-            : "text-[#5c808a] hover:bg-gray-50 dark:hover:bg-gray-800"
-        }`}
-    >
-      <span
-        className="material-symbols-outlined"
-        style={
-          filled
-            ? { fontVariationSettings: "'FILL' 1" }
-            : undefined
-        }
-      >
-        {icon}
-      </span>
-
-      <span
-        className={`text-sm ${
-          active ? "font-semibold" : "font-medium"
-        }`}
-      >
-        {label}
-      </span>
-    </a>
   );
 }
