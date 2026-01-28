@@ -4,8 +4,8 @@ export default function TopHeader() {
   const { currentUser } = useSelector((state) => state.user);
 
   return (
-    <header className="sticky top-0 z-10 flex items-center justify-between bg-white/80 backdrop-blur-md border-b border-gray-200 px-8 py-4">
-
+    // <header className="sticky top-0 z-10 flex items-center justify-between bg-white/80 backdrop-blur-md border-b border-gray-200 px-8 py-4">
+    <header className="flex items-center justify-between bg-white border-b border-gray-200 px-8 py-4 w-full">
       {/* 🔹 LEFT: PAGE TITLE */}
       <div className="flex items-center gap-4">
         <h2 className="text-lg font-bold tracking-tight text-gray-900">

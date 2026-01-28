@@ -6,22 +6,23 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen flex bg-[#f7fafa]">
 
-      {/* SIDEBAR */}
-      {/* <aside className="w-64 hidden lg:block"> */}
+       <div className="fixed left-0 top-0 h-screen z-20 ">
         <Sidebar />
-      {/* </aside> */}
+      </div>
 
 
-      <div className="flex-1 flex flex-col">
-
+      {/* <div className="flex-1 flex flex-col"> */}
+      {/* MAIN CONTENT AREA */}
+      <div className="flex-1 flex flex-col ml-0 lg:ml-64"> {/* ml-64 for sidebar width */}
         {/* HEADER */}
-        <header className="bg-white border-b">
+        <div className="fixed top-0 left-0 right-0 lg:left-64 z-10">
           <TopHeader />
-        </header>
+        </div>
+
 
         {/* PAGE CONTENT */}
-        <main className="p-6 space-y-8">
-
+        {/* <main className="p-6 space-y-8"> */}
+        <main className="flex-1 pt-16 lg:pt-20 p-6 space-y-8 overflow-y-auto">
           {/* OVERVIEW */}
           <section>
             <OverviewCards />
