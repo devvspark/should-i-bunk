@@ -54,7 +54,8 @@ export default function Sidebar() {
         </nav>
 
         {/* FOOTER */}
-        <div className="pt-6 border-t">
+        <div className="pt-6 border-t space-y-1">
+          <NavItem icon="account_circle" label="Profile" to="/profile" />
           <NavItem icon="settings" label="Settings" to="/settings" />
         </div>
       </div>
