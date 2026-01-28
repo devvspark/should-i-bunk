@@ -11,6 +11,11 @@ export const addSubject = async (req, res) => {
     attendedClasses,
     minPercentage,
   });
+  if (attendedClasses > totalClasses) {
+  return res.status(400).json({
+    message: "Lectures attended cannot be greater than total lectures held",
+  });
+}
 
   res.status(201).json(subject);
 };
