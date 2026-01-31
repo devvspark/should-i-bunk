@@ -240,3 +240,6 @@ export const clearTimetable = async (req, res) => {
     });
   }
 };
+
+
+/* Attendance history is now served by session.controller.js (GET /api/sessions/:subjectId) */

@@ -12,6 +12,7 @@ const router = express.Router();
 
 /* ================= TIMETABLE ROUTES ================= */
 /* All routes are protected with authentication */
+/* Note: Attendance history for a subject is under GET /api/sessions/:subjectId */
 
 /* GET - Fetch all classes for user */
 router.get("/", isAuthenticated, getTimetable);

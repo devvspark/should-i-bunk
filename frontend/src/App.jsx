@@ -4,6 +4,7 @@ import Signup from "./pages/auth/Signup";
 import LandingPage from "./pages/LandingPage";
 import Dashboard from "./pages/Dashboard";
 import EditSubject from "./pages/subjects/EditSubject";
+import SubjectDetail from "./pages/subjects/SubjectDetail";
 import AddSubject from "./pages/subjects/AddSubject";
 import SubjectsList from "./pages/subjects/SubjectList";
 import Profile from "./pages/Profile";
@@ -24,6 +25,7 @@ export default function App() {
         <Route path="/subjects/add" element={<AddSubject />} />
         <Route path="/subjects" element={<SubjectsList />} />
         <Route path="/subjects/edit/:id" element={<EditSubject />} />
+        <Route path="/subjects/:id" element={<SubjectDetail />} />
       </Routes>
     </BrowserRouter>
   );

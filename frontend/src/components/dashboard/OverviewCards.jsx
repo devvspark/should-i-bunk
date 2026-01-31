@@ -232,7 +232,7 @@ export default function OverviewCards() {
     if (todaysCriticalSubject) {
       return {
         text: "Update Attendance",
-        url: `/subjects/edit/${todaysCriticalSubject._id}`
+        url: `/subjects/${todaysCriticalSubject._id}`
       };
     } else if (subjects.length === 0) {
       return {

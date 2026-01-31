@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
 
@@ -20,30 +20,32 @@ export default function EditSubject() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
+  const [bunkResult, setBunkResult] = useState(null);
+  const [bunkLoading, setBunkLoading] = useState(false);
+
   /* ================= FETCH SUBJECT ================= */
-  useEffect(() => {
-    const fetchSubject = async () => {
-      try {
-        const res = await axiosInstance.get(`/subjects/${id}`);
-        const { subject, analysis } = res.data;
-
-        setForm({
-          name: subject.name,
-          totalClasses: subject.totalClasses,
-          attendedClasses: subject.attendedClasses,
-          minPercentage: subject.minPercentage,
-        });
-        setAnalysis(analysis);
-      } catch (err) {
-        setError("Failed to load subject");
-        setTimeout(() => navigate("/subjects"), 2000);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchSubject();
+  const fetchSubject = useCallback(async () => {
+    try {
+      const res = await axiosInstance.get(`/subjects/${id}`);
+      const { subject, analysis } = res.data;
+      setForm({
+        name: subject.name,
+        totalClasses: subject.totalClasses,
+        attendedClasses: subject.attendedClasses,
+        minPercentage: subject.minPercentage,
+      });
+      setAnalysis(analysis);
+    } catch (err) {
+      setError("Failed to load subject");
+      setTimeout(() => navigate("/subjects"), 2000);
+    } finally {
+      setLoading(false);
+    }
   }, [id, navigate]);
+
+  useEffect(() => {
+    fetchSubject();
+  }, [fetchSubject]);
 
   /* ================= HANDLE CHANGE ================= */
   const handleChange = (e) => {
@@ -83,6 +85,23 @@ export default function EditSubject() {
       navigate("/subjects");
     } catch {
       setError("Delete failed");
+    }
+  };
+
+  /* ================= SHOULD I BUNK TODAY? (Simulate – does not save) ================= */
+  const handleShouldIBunk = async () => {
+    setBunkLoading(true);
+    setBunkResult(null);
+    try {
+      const res = await axiosInstance.get(`/subjects/${id}/bunk`);
+      setBunkResult(res.data);
+    } catch (err) {
+      setBunkResult({
+        message: "Could not calculate",
+        analysis: null,
+      });
+    } finally {
+      setBunkLoading(false);
     }
   };
 
@@ -337,6 +356,38 @@ export default function EditSubject() {
                     Classes to Target
                   </p>
                 </div>
+              </div>
+
+              {/* Should I Bunk Today? – Simulates next class as ABSENT without saving */}
+              <div className="mb-6">
+                <button
+                  type="button"
+                  onClick={handleShouldIBunk}
+                  disabled={bunkLoading}
+                  className="w-full h-11 px-4 rounded-lg font-semibold bg-teal-600 text-white hover:bg-teal-700 disabled:opacity-50 transition"
+                >
+                  {bunkLoading ? "Calculating..." : "Should I Bunk Today?"}
+                </button>
+                {bunkResult && (
+                  <div
+                    className={`mt-3 p-3 rounded-lg border ${
+                      bunkResult.analysis?.isSafe
+                        ? "bg-green-50 border-green-200"
+                        : "bg-amber-50 border-amber-200"
+                    }`}
+                  >
+                    <p className={`text-sm font-bold ${
+                      bunkResult.analysis?.isSafe ? "text-green-800" : "text-amber-800"
+                    }`}>
+                      {bunkResult.message}
+                    </p>
+                    {bunkResult.analysis && (
+                      <p className="text-xs text-gray-600 mt-1">
+                        Simulated: next class as absent → {bunkResult.analysis.currentPercentage}% (not saved).
+                      </p>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Info Tip */}
