@@ -1,20 +1,14 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { User, Lock, LogOut, Loader, Check } from "lucide-react";
-import axios from "axios";
-
-const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000/api",
-  timeout: 10000,
-  headers: {
-    "Content-Type": "application/json",
-  },
-  withCredentials: true,
-});
+import axiosInstance from "../utils/axiosInstance";
+import { logout as logoutAction } from "../redux/userSlice";
 
 export default function Profile() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
   const [changingPassword, setChangingPassword] = useState(false);
@@ -142,16 +136,15 @@ export default function Profile() {
   /* ========== LOGOUT ========== */
   const handleLogout = async () => {
     try {
-      const response = await axiosInstance.post("/auth/logout");
-
-      if (response.data.success) {
-        toast.success("Logged out successfully");
-        localStorage.removeItem("token");
-        navigate("/login");
-      }
+      await axiosInstance.post("/auth/logout");
+      toast.success("Logged out successfully");
     } catch (error) {
       console.error("Error logging out:", error);
-      toast.error("Failed to logout");
+      // Even if server rejects, clear client state and go to login
+      toast.success("Logged out successfully");
+    } finally {
+      dispatch(logoutAction());
+      navigate("/login");
     }
   };
 

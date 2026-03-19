@@ -110,13 +110,152 @@ export const login = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
-        branch: user.branch
-      }
+        branch: user.branch,
+        createdAt: user.createdAt,
+      },
     });
 
   } catch (error) {
     console.error("Login Error:", error);
 
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
+};
+
+/* ================= GET PROFILE (from JWT cookie) ================= */
+export const getProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      user: {
+        name: user.name,
+        email: user.email,
+        branch: user.branch,
+        createdAt: user.createdAt,
+      },
+    });
+  } catch (error) {
+    console.error("Get Profile Error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
+};
+
+/* ================= UPDATE PROFILE (name, branch) ================= */
+export const updateProfile = async (req, res) => {
+  try {
+    const { name, branch } = req.body;
+    if (!name || !branch) {
+      return res.status(400).json({
+        success: false,
+        message: "Name and branch are required",
+      });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      req.userId,
+      { name, branch },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      user: {
+        name: user.name,
+        email: user.email,
+        branch: user.branch,
+        createdAt: user.createdAt,
+      },
+    });
+  } catch (error) {
+    console.error("Update Profile Error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
+};
+
+/* ================= CHANGE PASSWORD ================= */
+export const changePassword = async (req, res) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+    if (!oldPassword || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Old and new passwords are required",
+      });
+    }
+
+    const user = await User.findById(req.userId).select("+password");
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
+    if (!isMatch) {
+      return res.status(400).json({
+        success: false,
+        message: "Current password is incorrect",
+      });
+    }
+
+    user.password = await bcrypt.hash(newPassword, 10);
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Password changed successfully",
+    });
+  } catch (error) {
+    console.error("Change Password Error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
+};
+
+/* ================= LOGOUT (clear cookie) ================= */
+export const logout = (req, res) => {
+  try {
+    // Must match cookie path/options used at set-cookie time
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      path: "/",
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Logged out successfully",
+    });
+  } catch (error) {
+    console.error("Logout Error:", error);
     return res.status(500).json({
       success: false,
       message: "Server error",
