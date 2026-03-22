@@ -4,6 +4,7 @@ import authRoutes from "./auth.route.js";
 import subjectRoutes from "./subject.route.js";
 import classRoutes from "./class.route.js";
 import sessionRoutes from "./session.route.js";
+import analyticsRoutes from "./analytics.route.js";
 
 const router = express.Router();
 
@@ -12,5 +13,6 @@ router.use("/auth", authRoutes);
 router.use("/subjects", subjectRoutes);
 router.use("/classes", classRoutes);
 router.use("/sessions", sessionRoutes);
+router.use("/analytics", analyticsRoutes);
 
 export default router;
