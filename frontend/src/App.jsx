@@ -7,6 +7,7 @@ import EditSubject from "./pages/subjects/EditSubject";
 import SubjectDetail from "./pages/subjects/SubjectDetail";
 import AddSubject from "./pages/subjects/AddSubject";
 import SubjectsList from "./pages/subjects/SubjectList";
+import Analytics from "./pages/Analytics";
 import Profile from "./pages/Profile";
 import Timetable from "./pages/Timetable";
 import {Toaster} from "react-hot-toast";
@@ -22,6 +23,7 @@ export default function App() {
         <Route path="/dashboard" element={<Dashboard/>}/>
         <Route path="/profile" element={<Profile />} />
         <Route path="/timetable" element={<Timetable />} />
+        <Route path="/analytics" element={<Analytics />} />
         <Route path="/subjects/add" element={<AddSubject />} />
         <Route path="/subjects" element={<SubjectsList />} />
         <Route path="/subjects/edit/:id" element={<EditSubject />} />
